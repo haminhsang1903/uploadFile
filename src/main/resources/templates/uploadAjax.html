@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Upload File With Ajax</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+	<form id="file-upload-form">
+		<label for="file-upload-input">Select file to upload</label> <input
+			type="file" id="file-upload-input" name="file">
+		<button type="submit">Start Upload</button>
+	</form>
+	 <img th:src="@{uploads/}+${filename}" />
+	<script type="text/javascript">
+		$(document).ready(function() {
+			// bind form submit event
+			$("#file-upload-form").on("submit", function(e) {
+
+				// cancel the default behavior
+				e.preventDefault();
+
+				// use $.ajax() to upload file
+				$.ajax({
+					/* url : "/file-upload", */
+					url : "/upload",
+					type : "POST",
+					data : new FormData(this),
+					enctype : 'multipart/form-data',
+					processData : false,
+					contentType : false,
+					cache : false,
+					success : function(res) {
+						console.log(res);
+					},
+					error : function(err) {
+						console.error(err);
+					}
+				});
+			});
+		});
+	</script>
+</body>
+</html>
